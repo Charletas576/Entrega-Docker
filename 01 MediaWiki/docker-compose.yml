@@ -1,0 +1,25 @@
+services:
+  mediawiki:
+    image: mediawiki:latest
+    ports:
+      - 8080:80
+    environment:
+    MEDIAWIKI_DB_SERVER: db
+    MEDIAWIKI_DB_NAME: mediawiki
+    MEDIAWIKI_DB_USER: mediawikiuser
+    MEDIAWIKI_DB_PASSWORD: mediapassword
+    depends_on:
+      - db
+    volumes:
+      - ./LocalSettings.php:/var/www/html/LocalSettings.php
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mediawiki
+      MYSQL_USER: mediawikiuser
+      MYSQL_PASSWORD: mediapassword
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data:
